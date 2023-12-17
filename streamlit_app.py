@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 
 # Set up OpenAI API credentials
-openai.api_key = "YOUR_API_KEY"
+openai.api_key = "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"
 
 def generate_quiz(topic: str):
     """
