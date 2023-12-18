@@ -11,7 +11,7 @@ def set_stage(stage):
 def get_stage():
     return st.session_state.stage
 
-def render_result(question_options):
+def render_result(question_options, quiz_data):
     set_stage(2)
     n_correct = 0
     print("Ques ops : ", question_options, flush = True)
@@ -59,7 +59,7 @@ def main():
                 st.write('Incorrect option.')
         print("Ques ops : ", question_options, flush = True)
         selected_ans = question_options.copy()
-        st.button('Submit Answers', on_click=render_result, args=(question_options,))
+        st.button('Submit Answers', on_click=render_result, args=(question_options, quiz_data))
 
 
 if __name__ == "__main__":
