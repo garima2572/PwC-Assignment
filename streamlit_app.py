@@ -2,6 +2,7 @@ import streamlit as st
 from quiz_questions import generate_quiz
 
 if 'stage' not in st.session_state:
+    print("Reset", flush=True)
     st.session_state.stage = 0
     
 def set_stage(stage):
