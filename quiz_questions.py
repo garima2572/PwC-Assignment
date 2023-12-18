@@ -5,7 +5,7 @@ import openai
 
 
 # Set your OpenAI API key
-API_KEY = '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'
+API_KEY = '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'
 openai.api_key = API_KEY
 
 def is_api_key_valid():
