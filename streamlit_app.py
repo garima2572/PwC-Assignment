@@ -1,18 +1,6 @@
 import streamlit as st
 from quiz_questions import generate_quiz
-# Function to display the quiz questions
-def display_quiz(quiz_data):
-    for i, question_data in enumerate(quiz_data):
-        st.markdown(f"### Question {i + 1}: {question_data['question']}\\")
-        st.markdown(f"A. {question_data['option_a']}\\")
-        '''
-        st.radio(f"A_{i}", question_data['option_a'])
-        st.radio(f"B_{i}", question_data['option_b'])
-        st.radio(f"C_{i}", question_data['option_c'])
-        st.radio(f"D_{i}", question_data['option_d'])
-        '''
 
-        st.markdown("\\")
 
 def main():
     st.title("MCQ Quiz Application")
@@ -25,9 +13,21 @@ def main():
         if topic:
             # Generate quiz questions and answers
             quiz_data = generate_quiz(topic, num_questions)
-            # Display the quiz questions
-            display_quiz(quiz_data)
-            st.button("Submit Quiz")  # Add functionality to submit the quiz
+
+            question_options = []
+            for i, question_data in enumerate(quiz_data):
+                st.markdown(f"### Question {i + 1}: {question_data['question']}")
+                radio = st.radio(
+                            "Select the most appropriate option",
+                            ["A.", "B.", "C.", "D."],
+                            captions = [question_data['option_a'], question_data['option_b'],
+                                       question_data['option_c'], question_data['option_d']])
+                question_options.append(radio)
+
+                if radio == question_data["correct_option"]:
+                    st.write('Correct option.')
+                else:
+                    st.write('Incorrect option.')
         else:
             st.warning("Please enter a topic to start the quiz.")
 
