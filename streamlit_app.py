@@ -46,7 +46,7 @@ def main():
                 st.write(f'\t Correct ans = {question_data["correct_option"]} ')
                 st.write(f'\t Selected ans = {radio} ')
                 n_correct += 1
-        print(f"You scored {n_correct} / {len(quiz_data)}")
+        print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
         st.write(f"You scored {n_correct} / {len(quiz_data)}")
         st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
 
