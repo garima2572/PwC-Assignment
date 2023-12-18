@@ -1,66 +1,28 @@
 import streamlit as st
-import openai
 
-# Set up OpenAI API credentials
-openai.api_key = "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"
+# Function to display the quiz questions
+def display_quiz(quiz_data):
+    for i, question_data in enumerate(quiz_data, start=1):
+        st.markdown(f"### Question {i}: {question_data['question']}")
+        for option in question_data['options']:
+            st.radio(f"{option}", question_data['options'][option])
 
-def generate_quiz(topic: str):
-    """
-    Generates an AI-powered multiple choice quiz using langchain and streamlit.
+def main():
+    st.title("MCQ Quiz Application")
 
-    Parameters:
-    - topic: str
-        The topic for which the quiz is generated.
+    # User inputs for topic and number of questions
+    topic = st.text_input("Enter the topic for the quiz:")
+    num_questions = st.number_input("Number of questions:", min_value=1, max_value=10, value=5, step=1)
 
-    Returns:
-    - None
-        The function displays the generated quiz and the user's score.
+    if st.button("Start Quiz"):
+        if topic:
+            # Generate quiz questions and answers
+            quiz_data = generate_quiz(topic, num_questions)
+            # Display the quiz questions
+            display_quiz(quiz_data)
+            st.button("Submit Quiz")  # Add functionality to submit the quiz
+        else:
+            st.warning("Please enter a topic to start the quiz.")
 
-    Raises:
-    - ValueError:
-        Raises an error if the topic is not provided.
-    """
-
-    # Validate the topic
-    if not topic:
-        raise ValueError("Please provide a topic for the quiz.")
-
-    # Generate quiz using OpenAI Chat Completion API
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=f"Generate a multiple choice quiz on {topic}.",
-        max_tokens=100,
-        n=5,
-        stop=None,
-        temperature=0.7
-    )
-
-    # Extract quiz questions from the API response
-    questions = response.choices[0].text.strip().split("\n")
-
-    # Display the quiz using Streamlit
-    st.title("AI-powered Multiple Choice Quiz")
-    st.write(f"Topic: {topic}")
-    st.write("Instructions: Select the correct option for each question.")
-    st.write("")
-
-    # Initialize score
-    score = 0
-
-    # Display each question and get user's answer
-    for i, question in enumerate(questions):
-        st.write(f"Question {i+1}: {question}")
-        options = ["Option A", "Option B", "Option C", "Option D"]
-        user_answer = st.radio("Select your answer:", options)
-        correct_answer = "Option A"  # Assuming Option A is always the correct answer
-
-        # Check if user's answer is correct
-        if user_answer == correct_answer:
-            score += 1
-
-    # Display the user's score
-    st.write("")
-    st.write(f"Your score: {score}/{len(questions)}")
-
-# Example usage
-generate_quiz("Python Programming")
+if __name__ == "__main__":
+    main()
