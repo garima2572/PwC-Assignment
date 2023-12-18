@@ -1,4 +1,5 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 from quiz_questions import generate_quiz
 
 if 'stage' not in st.session_state:
@@ -26,6 +27,14 @@ def render_result(question_options, quiz_data):
     st.write(f"You scored {n_correct} / {len(quiz_data)}")
     st.write(f"Percentage {n_correct * 100 / len(quiz_data)}%")
 
+    #pie chart
+    labels = ['Correct', 'Incorrect']
+    sizes = [n_correct, len(quiz_data) - n_correct]
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, labels=labels, shadow=True, startangle=90)
+    ax1.axis('equal')
+    st.pyplot(fig1)
+    
 question_options = []
 def main():
     global question_options
