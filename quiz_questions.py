@@ -2,7 +2,7 @@ import langchain
 import openai
 
 # Set your OpenAI API key
-openai.api_key = 'YOUR_OPENAI_API_KEY'
+openai.api_key = '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'
 
 # Function to generate quiz questions and answers using Langchain and OpenAI's Chat Completion API
 def generate_quiz(topic, num_questions):
