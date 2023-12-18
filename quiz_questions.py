@@ -75,7 +75,7 @@ def generate_quiz(topic, num_questions):
                     C. {option 3}
                     D. {option 4}
                     
-                    Answer: {correct option letter}'''
+                    Answer: {correct option letter}.'''
 
     if is_api_key_valid():
         results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
