@@ -24,7 +24,7 @@ def render_result(question_options, quiz_data):
             n_correct += 1
     st.write("# Overall Results:")
     st.write(f"You scored {n_correct} / {len(quiz_data)}")
-    st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
+    st.write(f"Percentage {n_correct * 100 / len(quiz_data)}%")
 
 question_options = []
 def main():
@@ -53,10 +53,6 @@ def main():
                                    question_data['option_c'], question_data['option_d']], key = f'ques_{i}')
             question_options.append(radio)
             
-            if radio == question_data["correct_option"]:
-                st.write('Correct option.')
-            else:
-                st.write('Incorrect option.')
         print("Ques ops : ", question_options, flush = True)
         selected_ans = question_options.copy()
         st.button('Submit Answers', on_click=render_result, args=(question_options, quiz_data))
