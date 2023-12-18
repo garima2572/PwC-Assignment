@@ -80,17 +80,18 @@ def generate_quiz(topic, num_questions):
     if is_api_key_valid():
         results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
     else:
-        response = """Absolutely, here's an example of an MCQ type question on the topic of chemistry in the requested format:
-
+        response = """Certainly! Here's an MCQ type question on the topic of chemistry:
+                        
                         Question:
-                        Which of the following is considered a noble gas in the periodic table?
+                        Which subatomic particle is responsible for determining an element's chemical properties?
                         
-                        A. Helium
-                        B. Oxygen
-                        C. Nitrogen
-                        D. Chlorine
+                        A. Proton
+                        B. Neutron
+                        C. Electron
+                        D. Nucleus
                         
-                        Answer: A"""
+                        Answer:
+                        C. Electron"""
         
         results = [parse_result(response) for i in range(num_questions)]
 
