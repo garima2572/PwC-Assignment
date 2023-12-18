@@ -26,13 +26,15 @@ def render_result(question_options, quiz_data):
     st.write("# Overall Results:")
     st.write(f"You scored {n_correct} / {len(quiz_data)}")
     st.write(f"Percentage {n_correct * 100 / len(quiz_data)}%")
+    percent=n_correct * 100 / len(quiz_data)
 
     #pie chart
     labels = ['Correct', 'Incorrect']
-    sizes = [n_correct, len(quiz_data) - n_correct]
+    sizes = [percent, 100 - percent]
     fig1, ax1 = plt.subplots()
-    ax1.pie(sizes, labels=labels, shadow=True, startangle=90)
+    ax1.pie(sizes, labels=labels, shadow=True, autopct='%1.1f%%', startangle=90)
     ax1.axis('equal')
+    ax1.title('Results')
     st.pyplot(fig1)
     
 question_options = []
