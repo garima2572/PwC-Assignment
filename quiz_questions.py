@@ -26,13 +26,13 @@ def parse_result(result):
     answer = result[d_end + 7 : ans_end]
 
     if 'A.' in answer:
-        ans_op = 'A'
+        ans_op = 'A.'
     elif 'B.' in answer:
-        ans_op = 'B'
+        ans_op = 'B.'
     elif 'C.' in answer:
-        ans_op = 'C'
+        ans_op = 'C.'
     else:
-        ans_op = 'D'
+        ans_op = 'D.'
 
     res = {'question' : question,
            'option_a' : option_a,
