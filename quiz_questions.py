@@ -11,19 +11,19 @@ def parse_result(result):
     question = result[q_start : q_end]
     
     a_end = result.find("B.", q_end, len(result))
-    option_a = result[q_end + 2, a_end]
+    option_a = result[q_end + 2 : a_end]
 
     b_end = result.find("C.", a_end, len(result))
-    option_b = result[a_end + 2, b_end]
+    option_b = result[a_end + 2 : b_end]
 
     c_end = result.find("D.", b_end, len(result))
-    option_c = result[b_end + 2, c_end]
+    option_c = result[b_end + 2 : c_end]
 
     d_end = result.find("Answer:", c_end, len(result))
-    option_d = result[c_end + 2, d_end]
+    option_d = result[c_end + 2 : d_end]
 
     ans_end = result.find("Answer:", d_end, len(result))
-    answer = result[d_end + 7, ans_end]
+    answer = result[d_end + 7 : ans_end]
 
     if 'A.' in answer:
         ans_op = 'A'
