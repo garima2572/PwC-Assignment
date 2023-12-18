@@ -22,6 +22,7 @@ def main():
                                question_data['option_c'], question_data['option_d']], key = f'ques_{i}')
         question_options.append(radio)
 
+        print(radio, question_data["correct_option"], flush = True)
         if radio == question_data["correct_option"]:
             st.write('Correct option.')
         else:
