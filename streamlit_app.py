@@ -3,6 +3,7 @@ from quiz_questions import generate_quiz
 
 
 def main():
+    submit_ans = False
     st.title("MCQ Quiz Application")
 
     with st.form('Prompt'):
@@ -14,6 +15,20 @@ def main():
         quiz_data = generate_quiz(topic, num_questions)
     
         submit_prompt = st.form_submit_button('Generate questions')
+
+        if submit_ans:
+            n_correct = 0
+            for i, question_data in enumerate(quiz_data):
+                radio = question_options[i]
+                if radio == question_data["correct_option"]:
+                    st.write(f"For question {i + 1}: ")
+                    st.write(f'\t Correct ans = {question_data["correct_option"]} ')
+                    st.write(f'\t Selected ans = {radio} ')
+                    n_correct += 1
+            print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
+            st.write(f"You scored {n_correct} / {len(quiz_data)}")
+            st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
+    
 
     question_options = []
     with st.form('Questions'):
@@ -37,18 +52,6 @@ def main():
         else:
             submit_ans = False
             
-    if submit_ans:
-        n_correct = 0
-        for i, question_data in enumerate(quiz_data):
-            radio = question_options[i]
-            if radio == question_data["correct_option"]:
-                st.write(f"For question {i + 1}: ")
-                st.write(f'\t Correct ans = {question_data["correct_option"]} ')
-                st.write(f'\t Selected ans = {radio} ')
-                n_correct += 1
-        print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
-        st.write(f"You scored {n_correct} / {len(quiz_data)}")
-        st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
-
+    
 if __name__ == "__main__":
     main()
