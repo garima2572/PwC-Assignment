@@ -17,10 +17,10 @@ def render_result(question_options, quiz_data):
     print("Ques ops : ", question_options, flush = True)
     for i, question_data in enumerate(quiz_data):
         radio = question_options[i]
+        st.markdown(f"# For question {i + 1}: ")
+        st.write(f'Correct ans = {question_data["correct_option"]}')
+        st.write(f'\t Selected ans = {radio} ')
         if radio == question_data["correct_option"]:
-            st.markdown(f"# For question {i + 1}: ")
-            st.write(f'Correct ans = {question_data["correct_option"]}')
-            st.write(f'\t Selected ans = {radio} ')
             n_correct += 1
     st.write("# Overall Results:")
     st.write(f"You scored {n_correct} / {len(quiz_data)}")
