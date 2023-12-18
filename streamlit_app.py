@@ -12,7 +12,7 @@ def get_stage():
     return st.session_state.stage
 
 question_options = []
-
+selected_ans = []
 def main():
     global question_options
     st.title("MCQ Quiz Application")
@@ -38,13 +38,13 @@ def main():
                         captions = [question_data['option_a'], question_data['option_b'],
                                    question_data['option_c'], question_data['option_d']], key = f'ques_{i}')
             question_options.append(radio)
-    
+            
             if radio == question_data["correct_option"]:
                 st.write('Correct option.')
             else:
                 st.write('Incorrect option.')
         print("Ques ops : ", question_options, flush = True)
-        set_stage(3)
+        selected_ans = question_options.copy()
         st.button('Submit Answers', on_click=set_stage, args=(2,))
 
 
@@ -52,7 +52,7 @@ def main():
         n_correct = 0
         print("Ques ops : ", question_options, flush = True)
         for i, question_data in enumerate(quiz_data):
-            radio = question_options[i]
+            radio = selected_ans[i]
             if radio == question_data["correct_option"]:
                 st.write(f"For question {i + 1}: ")
                 st.write(f'\t Correct ans = {question_data["correct_option"]} ')
