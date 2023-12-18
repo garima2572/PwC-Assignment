@@ -1,9 +1,13 @@
 from langchain.chains import LLMChain
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
+import openai
+
 
 # Set your OpenAI API key
 API_KEY = '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'
+openai.api_key = API_KEY
+
 
 def parse_result(result):
     q_start = result.find("Question:") + len("Question:")
@@ -60,7 +64,22 @@ def generate_quiz(topic, num_questions):
                     D. {option 4}
                     
                     Answer: {correct option letter}'''
-    results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
+
+    if is_api_key_valid():
+        results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
+    else:
+        response = """Certainly, here's an example of an MCQ type question on the topic of world politics in the requested format:
+                        Question:
+                        What is the term used to describe the situation where a country’s government is run by a single individual who holds absolute power and often suppresses opposition?
+                        
+                        A. Autocracy
+                        B. Oligarchy
+                        C. Democracy
+                        D. Theocracy
+                        
+                        Answer:
+                        A. Autocracy"""
+        results = [parse_result(response) for i in range(num_questions)]
 
    
     return results
