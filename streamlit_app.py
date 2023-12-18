@@ -43,7 +43,7 @@ def main():
                 st.write('Correct option.')
             else:
                 st.write('Incorrect option.')
-
+        print("Ques ops : ", question_options, flush = True)
         st.button('Submit Answers', on_click=set_stage, args=(2,))
 
 
