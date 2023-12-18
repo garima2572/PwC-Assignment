@@ -19,7 +19,7 @@ def render_result(question_options, quiz_data):
         radio = question_options[i]
         if radio == question_data["correct_option"]:
             st.write(f"For question {i + 1}: ")
-            st.write(f'\t Correct ans = {question_data["correct_option"]} ')
+            st.html(f'<p style="margin-left : 10px"> Correct ans = {question_data["correct_option"]} </p>')
             st.write(f'\t Selected ans = {radio} ')
             n_correct += 1
     print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
