@@ -62,8 +62,5 @@ def main():
         st.button('Submit Answers', on_click=render_result, args=(question_options,))
 
 
-    if get_stage() == 2:
-        
-
 if __name__ == "__main__":
     main()
