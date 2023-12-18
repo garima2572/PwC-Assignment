@@ -49,6 +49,7 @@ def main():
 
     if get_stage() == 2:
         n_correct = 0
+        print("Ques ops : ", question_options, flush = True)
         for i, question_data in enumerate(quiz_data):
             radio = question_options[i]
             if radio == question_data["correct_option"]:
