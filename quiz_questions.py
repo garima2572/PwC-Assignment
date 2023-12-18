@@ -17,6 +17,6 @@ def generate_quiz(topic, num_questions):
     llm = OpenAI()
 
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    results = [llm_chain.run(question) for i in range(num_qestions)]
+    results = [llm_chain.run(question) for i in range(num_questions)]
 
     return results
