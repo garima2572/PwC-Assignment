@@ -3,11 +3,14 @@ from quiz_questions import generate_quiz
 # Function to display the quiz questions
 def display_quiz(quiz_data):
     for i, question_data in enumerate(quiz_data):
-        st.markdown(f"### Question {i + 1}: {question_data['question']}")
+        st.markdown(f"### Question {i + 1}: {question_data['question']}\")
+        st.markdown(f"A. {question_data['option_a']}\")
+        '''
         st.radio(f"A_{i}", question_data['option_a'])
         st.radio(f"B_{i}", question_data['option_b'])
         st.radio(f"C_{i}", question_data['option_c'])
         st.radio(f"D_{i}", question_data['option_d'])
+        '''
 
         st.markdown("\\")
 
