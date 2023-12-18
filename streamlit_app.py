@@ -1,66 +1,72 @@
 import streamlit as st
-import openai
+import matplotlib.pyplot as plt
+from quiz_questions import generate_quiz
 
-# Set up OpenAI API credentials
-openai.api_key = "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"
+if 'stage' not in st.session_state:
+    print("Reset", flush=True)
+    st.session_state.stage = 0
+    
+def set_stage(stage):
+    st.session_state.stage = stage
 
-def generate_quiz(topic: str):
-    """
-    Generates an AI-powered multiple choice quiz using langchain and streamlit.
+def get_stage():
+    return st.session_state.stage
 
-    Parameters:
-    - topic: str
-        The topic for which the quiz is generated.
+def render_result(question_options, quiz_data):
+    set_stage(2)
+    n_correct = 0
+    print("Ques ops : ", question_options, flush = True)
+    for i, question_data in enumerate(quiz_data):
+        radio = question_options[i]
+        st.markdown(f"# For question {i + 1}: ")
+        st.write(f'Correct ans = {question_data["correct_option"]}')
+        st.write(f'\t Selected ans = {radio} ')
+        if radio == question_data["correct_option"]:
+            n_correct += 1
+    st.write("# Overall Results:")
+    st.write(f"You scored {n_correct} / {len(quiz_data)}")
+    st.write(f"Percentage {n_correct * 100 / len(quiz_data)}%")
+    percent=n_correct * 100 / len(quiz_data)
 
-    Returns:
-    - None
-        The function displays the generated quiz and the user's score.
+    #pie chart
+    labels = ['Correct', 'Incorrect']
+    sizes = [percent, 100 - percent]
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, labels=labels, shadow=True, autopct='%1.1f%%', startangle=90)
+    ax1.axis('equal')
+    st.pyplot(fig1)
+    
+question_options = []
+def main():
+    global question_options
+    st.title("MCQ Quiz Application")
 
-    Raises:
-    - ValueError:
-        Raises an error if the topic is not provided.
-    """
+    
+    # User inputs for topic and number of questions
+    topic = st.text_input("Enter the topic for the quiz:")
+    num_questions = st.number_input("Number of questions:", min_value=1, max_value=10, value=5, step=1)
 
-    # Validate the topic
-    if not topic:
-        raise ValueError("Please provide a topic for the quiz.")
+    # Generate quiz questions and answers
+    quiz_data = generate_quiz(topic, num_questions)
 
-    # Generate quiz using OpenAI Chat Completion API
-    response = openai.Completion.create(
-        engine="davinci",
-        prompt=f"Generate a multiple choice quiz on {topic}.",
-        max_tokens=100,
-        n=5,
-        stop=None,
-        temperature=0.7
-    )
+    st.button('Generate questions', on_click=set_stage, args=(1,))
 
-    # Extract quiz questions from the API response
-    questions = response.choices[0].text.strip().split("\n")
+    
+    if get_stage() == 1:
+        question_options.clear()
+        for i, question_data in enumerate(quiz_data):
+            st.write(f"Question {i + 1}: {question_data['question']}")
+            radio = st.radio(
+                        "Select the most appropriate option",
+                        ["A.", "B.", "C.", "D."],
+                        captions = [question_data['option_a'], question_data['option_b'],
+                                   question_data['option_c'], question_data['option_d']], key = f'ques_{i}')
+            question_options.append(radio)
+            
+        print("Ques ops : ", question_options, flush = True)
+        selected_ans = question_options.copy()
+        st.button('Submit Answers', on_click=render_result, args=(question_options, quiz_data))
 
-    # Display the quiz using Streamlit
-    st.title("AI-powered Multiple Choice Quiz")
-    st.write(f"Topic: {topic}")
-    st.write("Instructions: Select the correct option for each question.")
-    st.write("")
 
-    # Initialize score
-    score = 0
-
-    # Display each question and get user's answer
-    for i, question in enumerate(questions):
-        st.write(f"Question {i+1}: {question}")
-        options = ["Option A", "Option B", "Option C", "Option D"]
-        user_answer = st.radio("Select your answer:", options)
-        correct_answer = "Option A"  # Assuming Option A is always the correct answer
-
-        # Check if user's answer is correct
-        if user_answer == correct_answer:
-            score += 1
-
-    # Display the user's score
-    st.write("")
-    st.write(f"Your score: {score}/{len(questions)}")
-
-# Example usage
-generate_quiz("Python Programming")
+if __name__ == "__main__":
+    main()

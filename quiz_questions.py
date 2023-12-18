@@ -1,16 +1,99 @@
-#import openai
+from langchain.chains import LLMChain
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+import openai
 
-#openai.api_key = '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'
 
-#def generate_quiz(topic):
-    #prompt = f"Create a multiple-choice quiz about {topic}. Questions:\n1."
-    #response = openai.ChatCompletion.create(
-     #   model="text-davinci-003",
-      #  messages=[
-       #     {"role": "system", "content": prompt}
-       # ],
-       # max_tokens=150
-   # )
-    # Extracting generated quiz questions from the OpenAI response
-    #quiz_questions = response['choices'][0]['message']['content']
-    #return quiz_questions
+# Set your OpenAI API key
+API_KEY = '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'
+openai.api_key = API_KEY
+
+def is_api_key_valid():
+    try:
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt="This is a test.",
+            max_tokens=5
+        )
+    except:
+        return False
+    else:
+        return True
+
+
+def parse_result(result):
+    q_start = result.find("Question:") + len("Question:")
+    q_end = result.find("A.", q_start, len(result))
+    question = result[q_start : q_end]
+    
+    a_end = result.find("B.", q_end, len(result))
+    option_a = result[q_end + 2 : a_end]
+
+    b_end = result.find("C.", a_end, len(result))
+    option_b = result[a_end + 2 : b_end]
+
+    c_end = result.find("D.", b_end, len(result))
+    option_c = result[b_end + 2 : c_end]
+
+    d_end = result.find("Answer:", c_end, len(result))
+    option_d = result[c_end + 2 : d_end]
+
+    answer = result[d_end + 7 : len(result)]
+
+    if 'A.' in answer:
+        ans_op = 'A.'
+    elif 'B.' in answer:
+        ans_op = 'B.'
+    elif 'C.' in answer:
+        ans_op = 'C.'
+    else:
+        ans_op = 'D.'
+
+    res = {'question' : question,
+           'option_a' : option_a,
+           'option_b' : option_b,
+           'option_c' : option_c,
+           'option_d' : option_d,
+          'answer' : answer,
+          'correct_option' : ans_op}
+    return res
+        
+
+# Function to generate quiz questions and answers using Langchain and OpenAI's Chat Completion API
+def generate_quiz(topic, num_questions):
+    # Generate questions based on the topic using Langchain
+    template = "Question: {question}"
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm = OpenAI(openai_api_key=API_KEY)
+
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    question = f'Assume you are a professor at a top university. Make an MCQ-type question and answer on  the topic "{topic}" and give me the result in the format '
+    question += '''
+                    Question: {question}
+                    A. {option 1}
+                    B. {option 2}
+                    C. {option 3}
+                    D. {option 4}
+                    
+                    Answer: {correct option letter}'''
+
+    if is_api_key_valid():
+        results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
+    else:
+        response = """Certainly! Here's an MCQ type question on the topic of chemistry:
+                        
+                        Question:
+                        Which subatomic particle is responsible for determining an element's chemical properties?
+                        
+                        A. Proton
+                        B. Neutron
+                        C. Electron
+                        D. Nucleus
+                        
+                        Answer:
+                        C. Electron"""
+        
+        results = [parse_result(response) for i in range(num_questions)]
+
+   
+    return results
