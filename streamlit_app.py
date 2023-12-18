@@ -11,8 +11,22 @@ def set_stage(stage):
 def get_stage():
     return st.session_state.stage
 
+def render_result(question_options):
+    set_stage(2)
+    n_correct = 0
+    print("Ques ops : ", question_options, flush = True)
+    for i, question_data in enumerate(quiz_data):
+        radio = question_options[i]
+        if radio == question_data["correct_option"]:
+            st.write(f"For question {i + 1}: ")
+            st.write(f'\t Correct ans = {question_data["correct_option"]} ')
+            st.write(f'\t Selected ans = {radio} ')
+            n_correct += 1
+    print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
+    st.write(f"You scored {n_correct} / {len(quiz_data)}")
+    st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
+
 question_options = []
-selected_ans = []
 def main():
     global question_options
     st.title("MCQ Quiz Application")
@@ -45,22 +59,11 @@ def main():
                 st.write('Incorrect option.')
         print("Ques ops : ", question_options, flush = True)
         selected_ans = question_options.copy()
-        st.button('Submit Answers', on_click=set_stage, args=(2,))
+        st.button('Submit Answers', on_click=render_result, args=(question_options,))
 
 
     if get_stage() == 2:
-        n_correct = 0
-        print("Ques ops : ", question_options, flush = True)
-        for i, question_data in enumerate(quiz_data):
-            radio = selected_ans[i]
-            if radio == question_data["correct_option"]:
-                st.write(f"For question {i + 1}: ")
-                st.write(f'\t Correct ans = {question_data["correct_option"]} ')
-                st.write(f'\t Selected ans = {radio} ')
-                n_correct += 1
-        print(f"You scored {n_correct} / {len(quiz_data)}", flush = True)
-        st.write(f"You scored {n_correct} / {len(quiz_data)}")
-        st.write(f"Percentage {n_correct * 100 / len(quiz_data)}")
+        
 
 if __name__ == "__main__":
     main()
