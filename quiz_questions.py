@@ -11,8 +11,6 @@ os.environ["OPENAI_API_KEY"] = 'sk-UP0L4PMEtenPnIzzfZUkT3BlbkFJlOdG7FaTcQCw8J8gS
 
 # Function to generate quiz questions and answers using Langchain and OpenAI's Chat Completion API
 def generate_quiz(topic, num_questions):
-    pipeline = langchain.Pipeline("openai/text-davinci-003")
-
     # Generate questions based on the topic using Langchain
     template = f"Create a multiple-choice quiz about {topic}. Questions:"
     prompt = PromptTemplate(template=template, input_variables=["question"])
