@@ -4,8 +4,10 @@ from quiz_questions import generate_quiz
 def display_quiz(quiz_data):
     for i, question_data in enumerate(quiz_data, start=1):
         st.markdown(f"### Question {i}: {question_data['question']}")
-        for option in question_data['options']:
-            st.radio(f"{option}", question_data['options'][option])
+        st.radio("A", question_data['option_a'])
+        st.radio("B", question_data['option_b'])
+        st.radio("C", question_data['option_c'])
+        st.radio("D", question_data['option_d'])
 
 def main():
     st.title("MCQ Quiz Application")
