@@ -80,17 +80,18 @@ def generate_quiz(topic, num_questions):
     if is_api_key_valid():
         results = [parse_result(llm_chain.run(question)) for i in range(num_questions)]
     else:
-        response = """Certainly, here's an example of an MCQ type question on the topic of world politics in the requested format:
+        response = """Absolutely, here's an example of an MCQ type question on the topic of chemistry in the requested format:
+
                         Question:
-                        What is the term used to describe the situation where a country’s government is run by a single individual who holds absolute power and often suppresses opposition?
+                        Which of the following is considered a noble gas in the periodic table?
                         
-                        A. Autocracy
-                        B. Oligarchy
-                        C. Democracy
-                        D. Theocracy
+                        A. Helium
+                        B. Oxygen
+                        C. Nitrogen
+                        D. Chlorine
                         
-                        Answer:
-                        A. Autocracy"""
+                        Answer: A"""
+        
         results = [parse_result(response) for i in range(num_questions)]
 
    
