@@ -34,7 +34,6 @@ def render_result(question_options, quiz_data):
     fig1, ax1 = plt.subplots()
     ax1.pie(sizes, labels=labels, shadow=True, autopct='%1.1f%%', startangle=90)
     ax1.axis('equal')
-    ax1.title('Results')
     st.pyplot(fig1)
     
 question_options = []
