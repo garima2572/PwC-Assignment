@@ -6,8 +6,8 @@ from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 
 # Set your OpenAI API key
-openai.api_key = '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'
-os.environ["OPENAI_API_KEY"] = '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'
+openai.api_key = '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'
+os.environ["OPENAI_API_KEY"] = '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'
 
 # Function to generate quiz questions and answers using Langchain and OpenAI's Chat Completion API
 def generate_quiz(topic, num_questions):
