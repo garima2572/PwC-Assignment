@@ -2,12 +2,14 @@ import streamlit as st
 from quiz_questions import generate_quiz
 # Function to display the quiz questions
 def display_quiz(quiz_data):
-    for i, question_data in enumerate(quiz_data, start=1):
-        st.markdown(f"### Question {i}: {question_data['question']}")
-        st.radio("A", question_data['option_a'])
-        st.radio("B", question_data['option_b'])
-        st.radio("C", question_data['option_c'])
-        st.radio("D", question_data['option_d'])
+    for i, question_data in enumerate(quiz_data):
+        st.markdown(f"### Question {i + 1}: {question_data['question']}")
+        st.radio(f"A_{i}", question_data['option_a'])
+        st.radio(f"B_{i}", question_data['option_b'])
+        st.radio(f"C_{i}", question_data['option_c'])
+        st.radio(f"D_{i}", question_data['option_d'])
+
+        st.markdown("\\")
 
 def main():
     st.title("MCQ Quiz Application")
