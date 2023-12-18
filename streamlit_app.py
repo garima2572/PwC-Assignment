@@ -21,7 +21,7 @@ def main():
                             "Select the most appropriate option",
                             ["A.", "B.", "C.", "D."],
                             captions = [question_data['option_a'], question_data['option_b'],
-                                       question_data['option_c'], question_data['option_d']])
+                                       question_data['option_c'], question_data['option_d']], key = f'ques_{i}')
                 question_options.append(radio)
 
                 if radio == question_data["correct_option"]:
