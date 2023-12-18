@@ -22,8 +22,7 @@ def parse_result(result):
     d_end = result.find("Answer:", c_end, len(result))
     option_d = result[c_end + 2 : d_end]
 
-    ans_end = result.find("Answer:", d_end, len(result))
-    answer = result[d_end + 7 : ans_end]
+    answer = result[d_end + 7 : len(result)]
 
     if 'A.' in answer:
         ans_op = 'A.'
