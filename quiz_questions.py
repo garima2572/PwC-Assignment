@@ -8,6 +8,18 @@ import openai
 API_KEY = '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'
 openai.api_key = API_KEY
 
+def is_api_key_valid():
+    try:
+        response = openai.Completion.create(
+            engine="davinci",
+            prompt="This is a test.",
+            max_tokens=5
+        )
+    except:
+        return False
+    else:
+        return True
+
 
 def parse_result(result):
     q_start = result.find("Question:") + len("Question:")
