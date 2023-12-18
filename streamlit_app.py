@@ -11,7 +11,10 @@ def set_stage(stage):
 def get_stage():
     return st.session_state.stage
 
+question_options = []
+
 def main():
+    global question_options
     st.title("MCQ Quiz Application")
 
     
@@ -24,7 +27,7 @@ def main():
 
     st.button('Generate questions', on_click=set_stage, args=(1,))
 
-    question_options = []
+    
     if get_stage() == 1:
         question_options.clear()
         for i, question_data in enumerate(quiz_data):
