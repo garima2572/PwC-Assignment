@@ -52,7 +52,8 @@ def generate_quiz(topic, num_questions):
     llm = OpenAI(openai_api_key=API_KEY)
 
     llm_chain = LLMChain(prompt=prompt, llm=llm)
-    question = f'''Assume you are a professor at a top university. Make an MCQ-type question and answer on  the topic "{topic}" and give me the result in the format 
+    question = f'Assume you are a professor at a top university. Make an MCQ-type question and answer on  the topic "{topic}" and give me the result in the format '
+    question += '''
                     Question: {question}
                     A. {option 1}
                     B. {option 2}
